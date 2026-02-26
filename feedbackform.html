@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalodata AI Voice Agent — Test Feedback Form</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:     #0D1117;
+    --paper:   #F7F4EF;
+    --cream:   #EDE9E1;
+    --gold:    #C9A84C;
+    --gold-lt: #F0E4C2;
+    --red:     #C0392B;
+    --green:   #1A7A4A;
+    --blue:    #1B4F8A;
+    --mid:     #6B6560;
+    --rule:    #D4CFC8;
+    --accent:  #2E75B6;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: .5;
+  }
+
+  /* ── Layout ── */
+  .page { max-width: 820px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ── Masthead ── */
+  .masthead {
+    border-top: 3px double var(--ink);
+    border-bottom: 3px double var(--ink);
+    padding: 20px 0 18px;
+    margin-bottom: 36px;
+    text-align: center;
+    position: relative;
+  }
+  .masthead::before, .masthead::after {
+    content: '◆';
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    color: var(--gold);
+    font-size: 10px;
+  }
+  .masthead::before { left: 0; }
+  .masthead::after  { right: 0; }
+  .masthead .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+  .masthead h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(22px, 4vw, 34px);
+    letter-spacing: -.02em;
+    line-height: 1.1;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .masthead .sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--mid);
+    margin-top: 8px;
+    letter-spacing: .05em;
+  }
+
+  /* ── Meta strip ── */
+  .meta-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .meta-field label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 4px;
+  }
+  .meta-field input, .meta-field select {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-bottom: 2px solid var(--ink);
+    padding: 7px 10px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s;
+  }
+  .meta-field input:focus, .meta-field select:focus {
+    border-bottom-color: var(--accent);
+    background: #fff;
+  }
+
+  /* ── Section ── */
+  .section {
+    margin-bottom: 32px;
+    animation: fadeUp .5s ease both;
+  }
+  .section:nth-child(2)  { animation-delay: .05s; }
+  .section:nth-child(3)  { animation-delay: .10s; }
+  .section:nth-child(4)  { animation-delay: .15s; }
+  .section:nth-child(5)  { animation-delay: .20s; }
+  .section:nth-child(6)  { animation-delay: .25s; }
+  .section:nth-child(7)  { animation-delay: .30s; }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(12px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+    min-width: 32px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    letter-spacing: -.01em;
+  }
+  .section-badge {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--rule);
+    color: var(--mid);
+  }
+
+  /* ── Rating rows ── */
+  .rating-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .rating-row:last-child { border-bottom: none; }
+  .rating-label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .rating-hint {
+    font-size: 11px;
+    color: var(--mid);
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .stars {
+    display: flex;
+    gap: 4px;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+  .stars input { display: none; }
+  .stars label {
+    font-size: 22px;
+    color: var(--rule);
+    cursor: pointer;
+    transition: color .15s, transform .1s;
+    line-height: 1;
+  }
+  .stars input:checked ~ label,
+  .stars label:hover,
+  .stars label:hover ~ label {
+    color: var(--gold);
+  }
+  .stars label:hover { transform: scale(1.15); }
+
+  /* ── Pass/Fail toggle ── */
+  .pf-group {
+    display: flex;
+    gap: 8px;
+    padding: 12px 0;
+    border-bottom: 1px dotted var(--rule);
+    align-items: center;
+  }
+  .pf-group:last-child { border-bottom: none; }
+  .pf-label { flex: 1; font-size: 13px; font-weight: 500; }
+  .pf-hint { font-size: 11px; color: var(--mid); display: block; font-style: italic; }
+  .toggle-wrap { display: flex; gap: 6px; }
+  .toggle-wrap input { display: none; }
+  .toggle-wrap label {
+    padding: 5px 14px;
+    border: 1.5px solid var(--rule);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .08em;
+    cursor: pointer;
+    transition: all .15s;
+    color: var(--mid);
+  }
+  .toggle-wrap input[value="pass"]:checked + label {
+    background: var(--green); border-color: var(--green);
+    color: #fff; font-weight: 600;
+  }
+  .toggle-wrap input[value="fail"]:checked + label {
+    background: var(--red); border-color: var(--red);
+    color: #fff; font-weight: 600;
+  }
+  .toggle-wrap input[value="na"]:checked + label {
+    background: var(--mid); border-color: var(--mid);
+    color: #fff;
+  }
+
+  /* ── Text areas ── */
+  .field-group { margin-bottom: 14px; }
+  .field-group label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 5px;
+  }
+  .field-group textarea, .field-group input[type="text"] {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--ink);
+    padding: 10px 12px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+    resize: vertical;
+    transition: border-color .2s;
+    line-height: 1.5;
+  }
+  .field-group textarea:focus, .field-group input[type="text"]:focus {
+    border-left-color: var(--accent);
+    background: #fff;
+  }
+  .field-group textarea { min-height: 80px; }
+
+  /* Two-col layout for text fields */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  /* ── Checklist ── */
+  .check-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+  }
+  .check-item { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; }
+  .check-item input { display: none; }
+  .check-box {
+    width: 16px; height: 16px; min-width: 16px;
+    border: 1.5px solid var(--ink);
+    margin-top: 2px;
+    transition: all .15s;
+    position: relative;
+  }
+  .check-item input:checked + .check-box {
+    background: var(--ink);
+  }
+  .check-item input:checked + .check-box::after {
+    content: '✓';
+    position: absolute; top: -1px; left: 1px;
+    color: var(--paper); font-size: 11px; font-weight: 700;
+  }
+  .check-text { font-size: 12.5px; line-height: 1.4; }
+
+  /* ── Overall verdict ── */
+  .verdict-wrap {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ink);
+    padding: 20px;
+    margin-bottom: 32px;
+  }
+  .verdict-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+  .verdict-options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .verdict-options input { display: none; }
+  .verdict-options label {
+    display: block;
+    text-align: center;
+    padding: 12px 8px;
+    border: 1.5px solid var(--rule);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .verdict-options label .v-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+  .verdict-options label .v-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .verdict-options input[value="excellent"]:checked + label { background:#D4EDDA; border-color:var(--green); }
+  .verdict-options input[value="good"]:checked + label      { background:#D1ECF1; border-color:#0c7a8a; }
+  .verdict-options input[value="needs-work"]:checked + label{ background:#FFF3CD; border-color:#b38000; }
+  .verdict-options input[value="fail"]:checked + label      { background:#F8D7DA; border-color:var(--red); }
+
+  /* ── Score display ── */
+  .score-bar {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .score-bar .score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+  .score-bar .score-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--gold);
+  }
+
+  /* ── Submit button ── */
+  .submit-area { text-align: center; margin-top: 32px; }
+  .btn-submit {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 14px 48px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-submit::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 0;
+    background: var(--accent);
+    transition: height .2s;
+    z-index: 0;
+  }
+  .btn-submit:hover::before { height: 100%; }
+  .btn-submit span { position: relative; z-index: 1; }
+  .btn-submit:active { transform: scale(.98); }
+
+  /* ── Success screen ── */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    animation: fadeUp .4s ease;
+  }
+  .success-screen.show { display: block; }
+  .success-icon { font-size: 56px; margin-bottom: 16px; }
+  .success-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; margin-bottom: 8px;
+  }
+  .success-screen p { color: var(--mid); font-size: 13px; }
+  .result-summary {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--gold);
+    padding: 20px;
+    margin: 24px 0;
+    text-align: left;
+  }
+  .result-summary h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px; margin-bottom: 12px;
+  }
+  .result-row { 
+    display: flex; justify-content: space-between;
+    padding: 6px 0; border-bottom: 1px dotted var(--rule);
+    font-size: 13px;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .rlabel { color: var(--mid); }
+  .result-row .rval { font-weight: 600; }
+  .rval.great { color: var(--green); }
+  .rval.warn  { color: #b38000; }
+  .rval.bad   { color: var(--red); }
+
+  .btn-reset {
+    background: none; border: 1.5px solid var(--ink);
+    padding: 10px 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: pointer; transition: all .2s; margin-top: 16px;
+  }
+  .btn-reset:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── Divider ── */
+  .rule-ornament {
+    text-align: center;
+    margin: 24px 0 20px;
+    color: var(--rule);
+    font-size: 12px;
+    letter-spacing: .3em;
+  }
+
+  /* Required marker */
+  .req { color: var(--red); }
+
+  @media (max-width: 600px) {
+    .meta-strip { grid-template-columns: 1fr; }
+    .verdict-options { grid-template-columns: repeat(2,1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .check-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="eyebrow">Kalodata · VAPI AI Voice Agent · QA Testing</div>
+    <h1>Call Testing <em>Feedback</em> Form</h1>
+    <div class="sub">Version 3.9.3 · Outbound Appointment Booking · Dina</div>
+  </div>
+
+  <div id="form-body">
+
+    <!-- Meta -->
+    <div class="meta-strip">
+      <div class="meta-field">
+        <label>Tester Name <span class="req">*</span></label>
+        <input type="text" id="tester-name" placeholder="Your name">
+      </div>
+      <div class="meta-field">
+        <label>Test Date <span class="req">*</span></label>
+        <input type="date" id="test-date">
+      </div>
+      <div class="meta-field">
+        <label>Call ID (VAPI)</label>
+        <input type="text" id="call-id" placeholder="019c8e75-…">
+      </div>
+      <div class="meta-field">
+        <label>Test Scenario</label>
+        <select id="scenario">
+          <option value="">— Select —</option>
+          <option>Standard booking — interested lead</option>
+          <option>Callback request</option>
+          <option>Not interested / rejection</option>
+          <option>No answer / voicemail</option>
+          <option>Email confirmation loop test</option>
+          <option>Impatient prospect</option>
+          <option>STT noise / affirmative test</option>
+          <option>Technical error recovery</option>
+          <option>Reschedule flow</option>
+          <option>Cancel flow</option>
+        </select>
+      </div>
+      <div class="meta-field">
+        <label>Prospect Language</label>
+        <select id="lang">
+          <option>Mandarin (CN)</option>
+          <option>Mandarin (TW)</option>
+          <option>Cantonese</option>
+          <option>Malay</option>
+          <option>English</option>
+          <option>Mixed</option>
+        </select>
+      </div>
+      <div class="meta-field">
+        <label>Call Duration</label>
+        <input type="text" id="call-dur" placeholder="e.g. 2 mins 30 secs">
+      </div>
+    </div>
+
+    <!-- ── Section 1: Language & Tone ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <span class="section-title">Language & Tone</span>
+        <span class="section-badge">Quality</span>
+      </div>
+
+      <div class="rating-row">
+        <div>
+          <div class="rating-label">Mandarin-only compliance</div>
+          <div class="rating-hint">Did Dina avoid all English words (ok, noted, demo, email, etc.)?</div>
+        </div>
+        <div class="stars" id="stars-lang-1">
+          <input type="radio" name="lang1" id="l1-5" value="5"><label for="l1-5">★</label>
+          <input type="radio" name="lang1" id="l1-4" value="4"><label for="l1-4">★</label>
+          <input type="radio" name="lang1" id="l1-3" value="3"><label for="l1-3">★</label>
+          <input type="radio" name="lang1" id="l1-2" value="2"><label for="l1-2">★</label>
+          <input type="radio" name="lang1" id="l1-1" value="1"><label for="l1-1">★</label>
+        </div>
+      </div>
+      <div class="rating-row">
+        <div>
+          <div class="rating-label">Natural, conversational tone</div>
+          <div class="rating-hint">Did Dina sound warm and relaxed, not robotic or scripted?</div>
+        </div>
+        <div class="stars">
+          <input type="radio" name="lang2" id="l2-5" value="5"><label for="l2-5">★</label>
+          <input type="radio" name="lang2" id="l2-4" value="4"><label for="l2-4">★</label>
+          <input type="radio" name="lang2" id="l2-3" value="3"><label for="l2-3">★</label>
+          <input type="radio" name="lang2" id="l2-2" value="2"><label for="l2-2">★</label>
+          <input type="radio" name="lang2" id="l2-1" value="1"><label for="l2-1">★</label>
+        </div>
+      </div>
+      <div class="rating-row">
+        <div>
+          <div class="rating-label">Pace & speed</div>
+          <div class="rating-hint">Was the speaking speed comfortable? Not too fast or too slow?</div>
+        </div>
+        <div class="stars">
+          <input type="radio" name="lang3" id="l3-5" value="5"><label for="l3-5">★</label>
+          <input type="radio" name="lang3" id="l3-4" value="4"><label for="l3-4">★</label>
+          <input type="radio" name="lang3" id="l3-3" value="3"><label for="l3-3">★</label>
+          <input type="radio" name="lang3" id="l3-2" value="2"><label for="l3-2">★</label>
+          <input type="radio" name="lang3" id="l3-1" value="1"><label for="l3-1">★</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Section 2: Phase Flow ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <span class="section-title">Conversation Flow — Phase by Phase</span>
+        <span class="section-badge">Critical</span>
+      </div>
+
+      <div class="pf-group">
+        <div class="pf-label">
+          Phase 1 — Confirmed interest correctly
+          <span class="pf-hint">Moved to Phase 2 on any affirmative, asked once if unclear, ended correctly if rejected</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="ph1" id="ph1-p" value="pass"><label for="ph1-p">PASS</label>
+          <input type="radio" name="ph1" id="ph1-f" value="fail"><label for="ph1-f">FAIL</label>
+          <input type="radio" name="ph1" id="ph1-n" value="na"><label for="ph1-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          Phase 2 — Asked only Q1 (service interest), skipped Q2 & Q3
+          <span class="pf-hint">Only 1 qualification question — shop data / competitor / trend analysis</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="ph2" id="ph2-p" value="pass"><label for="ph2-p">PASS</label>
+          <input type="radio" name="ph2" id="ph2-f" value="fail"><label for="ph2-f">FAIL</label>
+          <input type="radio" name="ph2" id="ph2-n" value="na"><label for="ph2-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          Phase 3 — Presented pre-loaded slots correctly
+          <span class="pf-hint">Used injected slotA/slotB display dates and times, not hallucinated ones</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="ph3" id="ph3-p" value="pass"><label for="ph3-p">PASS</label>
+          <input type="radio" name="ph3" id="ph3-f" value="fail"><label for="ph3-f">FAIL</label>
+          <input type="radio" name="ph3" id="ph3-n" value="na"><label for="ph3-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          Phase 4 — Name/Email/Phone confirmed correctly
+          <span class="pf-hint">Max 1 retry per field, accepted affirmatives, no looping</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="ph4" id="ph4-p" value="pass"><label for="ph4-p">PASS</label>
+          <input type="radio" name="ph4" id="ph4-f" value="fail"><label for="ph4-f">FAIL</label>
+          <input type="radio" name="ph4" id="ph4-n" value="na"><label for="ph4-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          Phase 5 — book_appointment() called with correct data
+          <span class="pf-hint">Used pre-loaded variables, passed name/email/phone/startTime/endTime/notes</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="ph5" id="ph5-p" value="pass"><label for="ph5-p">PASS</label>
+          <input type="radio" name="ph5" id="ph5-f" value="fail"><label for="ph5-f">FAIL</label>
+          <input type="radio" name="ph5" id="ph5-n" value="na"><label for="ph5-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          Phase 6 — Recap said 30 minutes (not 60)
+          <span class="pf-hint">Summary: date, time, 三十分钟</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="ph6" id="ph6-p" value="pass"><label for="ph6-p">PASS</label>
+          <input type="radio" name="ph6" id="ph6-f" value="fail"><label for="ph6-f">FAIL</label>
+          <input type="radio" name="ph6" id="ph6-n" value="na"><label for="ph6-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          Phase 7 — call_results() fired with complete data
+          <span class="pf-hint">All fields populated: outcome, lead info, serviceInterest, appointmentDate/Time, googleMeetLink</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="ph7" id="ph7-p" value="pass"><label for="ph7-p">PASS</label>
+          <input type="radio" name="ph7" id="ph7-f" value="fail"><label for="ph7-f">FAIL</label>
+          <input type="radio" name="ph7" id="ph7-n" value="na"><label for="ph7-n">N/A</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Section 3: STT & Recognition ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <span class="section-title">STT & Speech Recognition</span>
+        <span class="section-badge">Technical</span>
+      </div>
+
+      <div class="rating-row">
+        <div>
+          <div class="rating-label">Affirmative recognition accuracy</div>
+          <div class="rating-hint">Did Dina correctly treat 对/好/可以/嗯 and similar as confirmation?</div>
+        </div>
+        <div class="stars">
+          <input type="radio" name="stt1" id="s1-5" value="5"><label for="s1-5">★</label>
+          <input type="radio" name="stt1" id="s1-4" value="4"><label for="s1-4">★</label>
+          <input type="radio" name="stt1" id="s1-3" value="3"><label for="s1-3">★</label>
+          <input type="radio" name="stt1" id="s1-2" value="2"><label for="s1-2">★</label>
+          <input type="radio" name="stt1" id="s1-1" value="1"><label for="s1-1">★</label>
+        </div>
+      </div>
+      <div class="rating-row">
+        <div>
+          <div class="rating-label">Service interest transcription</div>
+          <div class="rating-hint">Did 趋势分析 / 店铺数据 / 竞争对手分析 get recognized correctly?</div>
+        </div>
+        <div class="stars">
+          <input type="radio" name="stt2" id="s2-5" value="5"><label for="s2-5">★</label>
+          <input type="radio" name="stt2" id="s2-4" value="4"><label for="s2-4">★</label>
+          <input type="radio" name="stt2" id="s2-3" value="3"><label for="s2-3">★</label>
+          <input type="radio" name="stt2" id="s2-2" value="2"><label for="s2-2">★</label>
+          <input type="radio" name="stt2" id="s2-1" value="1"><label for="s2-1">★</label>
+        </div>
+      </div>
+      <div class="rating-row">
+        <div>
+          <div class="rating-label">STT noise handling</div>
+          <div class="rating-hint">When STT returned gibberish (飞/所以), did Dina treat it as affirmative?</div>
+        </div>
+        <div class="stars">
+          <input type="radio" name="stt3" id="s3-5" value="5"><label for="s3-5">★</label>
+          <input type="radio" name="stt3" id="s3-4" value="4"><label for="s3-4">★</label>
+          <input type="radio" name="stt3" id="s3-3" value="3"><label for="s3-3">★</label>
+          <input type="radio" name="stt3" id="s3-2" value="2"><label for="s3-2">★</label>
+          <input type="radio" name="stt3" id="s3-1" value="1"><label for="s3-1">★</label>
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-top:12px;">
+        <label>STT errors observed (what was said vs what was transcribed)</label>
+        <textarea id="stt-errors" placeholder="e.g. User said 趋势分析 but STT transcribed as 气势分析..."></textarea>
+      </div>
+    </div>
+
+    <!-- ── Section 4: Data Accuracy ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <span class="section-title">Data Accuracy — Tool Calls</span>
+        <span class="section-badge">Critical</span>
+      </div>
+
+      <div class="pf-group">
+        <div class="pf-label">
+          book_appointment — correct name used (pre-loaded, not heard)
+          <span class="pf-hint">Must use {{lead_name}} variable, never what prospect said</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="da1" id="da1-p" value="pass"><label for="da1-p">PASS</label>
+          <input type="radio" name="da1" id="da1-f" value="fail"><label for="da1-f">FAIL</label>
+          <input type="radio" name="da1" id="da1-n" value="na"><label for="da1-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          book_appointment — correct email used (pre-loaded)
+          <span class="pf-hint">Must use {{lead_email}} variable exactly as injected</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="da2" id="da2-p" value="pass"><label for="da2-p">PASS</label>
+          <input type="radio" name="da2" id="da2-f" value="fail"><label for="da2-f">FAIL</label>
+          <input type="radio" name="da2" id="da2-n" value="na"><label for="da2-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          book_appointment — startTime ISO matches chosen slot
+          <span class="pf-hint">ISO time must match the pre-loaded slotX_timeY_iso variable exactly</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="da3" id="da3-p" value="pass"><label for="da3-p">PASS</label>
+          <input type="radio" name="da3" id="da3-f" value="fail"><label for="da3-f">FAIL</label>
+          <input type="radio" name="da3" id="da3-n" value="na"><label for="da3-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          call_results — googleMeetLink populated from book_appointment response
+          <span class="pf-hint">Not empty string when booking was successful</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="da4" id="da4-p" value="pass"><label for="da4-p">PASS</label>
+          <input type="radio" name="da4" id="da4-f" value="fail"><label for="da4-f">FAIL</label>
+          <input type="radio" name="da4" id="da4-n" value="na"><label for="da4-n">N/A</label>
+        </div>
+      </div>
+      <div class="pf-group">
+        <div class="pf-label">
+          call_results — notes field not empty
+          <span class="pf-hint">Should always contain a summary like 感兴趣：趋势分析，预约：date time</span>
+        </div>
+        <div class="toggle-wrap">
+          <input type="radio" name="da5" id="da5-p" value="pass"><label for="da5-p">PASS</label>
+          <input type="radio" name="da5" id="da5-f" value="fail"><label for="da5-f">FAIL</label>
+          <input type="radio" name="da5" id="da5-n" value="na"><label for="da5-n">N/A</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Section 5: Edge Cases ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <span class="section-title">Edge Case Handling</span>
+        <span class="section-badge">Robustness</span>
+      </div>
+
+      <p style="font-size:12px;color:var(--mid);margin-bottom:12px;">Check all edge cases that were tested in this session:</p>
+      <div class="check-grid" id="edge-cases">
+        <label class="check-item"><input type="checkbox" value="impatient"><span class="check-box"></span><span class="check-text">Impatient prospect — continued call correctly</span></label>
+        <label class="check-item"><input type="checkbox" value="email-loop"><span class="check-box"></span><span class="check-text">Email confirmation — no looping (max 1 retry)</span></label>
+        <label class="check-item"><input type="checkbox" value="stt-noise"><span class="check-box"></span><span class="check-text">STT noise treated as affirmative</span></label>
+        <label class="check-item"><input type="checkbox" value="goodbye-recovery"><span class="check-box"></span><span class="check-text">Post-goodbye recovery worked</span></label>
+        <label class="check-item"><input type="checkbox" value="no-answer"><span class="check-box"></span><span class="check-text">No answer — call_results fired correctly</span></label>
+        <label class="check-item"><input type="checkbox" value="booking-error"><span class="check-box"></span><span class="check-text">Booking error — technical_error message given</span></label>
+        <label class="check-item"><input type="checkbox" value="callback"><span class="check-box"></span><span class="check-text">Callback scheduled — date/time captured</span></label>
+        <label class="check-item"><input type="checkbox" value="rejection"><span class="check-box"></span><span class="check-text">Rejection handled gracefully</span></label>
+        <label class="check-item"><input type="checkbox" value="name-spelling"><span class="check-box"></span><span class="check-text">Name read as whole word (no letter-by-letter)</span></label>
+        <label class="check-item"><input type="checkbox" value="email-chunks"><span class="check-box"></span><span class="check-text">Email read in word chunks (not spelled out)</span></label>
+        <label class="check-item"><input type="checkbox" value="phone-groups"><span class="check-box"></span><span class="check-text">Phone read in 4-3-4 groups, zeros intact</span></label>
+        <label class="check-item"><input type="checkbox" value="google-sheet"><span class="check-box"></span><span class="check-text">Google Sheets logged correctly after call</span></label>
+      </div>
+    </div>
+
+    <!-- ── Section 6: What Worked Great ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <span class="section-title">What Worked Great ✦</span>
+        <span class="section-badge">Strengths</span>
+      </div>
+      <div class="field-group">
+        <label>Highlights — specific moments that impressed you</label>
+        <textarea id="strengths" placeholder="e.g. Dina handled the STT noise perfectly, moved forward without asking again. Slot presentation was clear and natural. Booking completed in under 3 mins..."></textarea>
+      </div>
+    </div>
+
+    <!-- ── Section 7: Room to Improve ── -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <span class="section-title">Room to Improve ✧</span>
+        <span class="section-badge">Issues</span>
+      </div>
+      <div class="two-col">
+        <div class="field-group">
+          <label>Issues found — describe what went wrong</label>
+          <textarea id="issues" placeholder="e.g. Email was still looped twice despite max-1 rule. Phase 6 said 六十分钟 instead of 三十分钟..."></textarea>
+        </div>
+        <div class="field-group">
+          <label>Suggested fix / action item</label>
+          <textarea id="fix" placeholder="e.g. Update system prompt Phase 4.2. Change first message in VAPI dashboard to 三十分钟..."></textarea>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Priority level of issues found</label>
+        <select id="priority" style="width:200px;background:var(--cream);border:1px solid var(--rule);border-bottom:2px solid var(--ink);padding:7px 10px;font-family:'Instrument Sans',sans-serif;font-size:13px;outline:none;">
+          <option value="">— Select —</option>
+          <option>🔴 Critical — breaks booking flow</option>
+          <option>🟠 High — affects user experience significantly</option>
+          <option>🟡 Medium — minor friction, workaround exists</option>
+          <option>🟢 Low — cosmetic / nice to have</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ── Overall Verdict ── -->
+    <div class="rule-ornament">— — — ◆ — — —</div>
+
+    <div class="verdict-wrap">
+      <div class="verdict-title">Overall Test Verdict</div>
+      <div class="verdict-options">
+        <div>
+          <input type="radio" name="verdict" id="v-excellent" value="excellent">
+          <label for="v-excellent">
+            <span class="v-icon">🏆</span>
+            <span class="v-text">Excellent<br>Ship it</span>
+          </label>
+        </div>
+        <div>
+          <input type="radio" name="verdict" id="v-good" value="good">
+          <label for="v-good">
+            <span class="v-icon">✅</span>
+            <span class="v-text">Good<br>Minor fixes</span>
+          </label>
+        </div>
+        <div>
+          <input type="radio" name="verdict" id="v-needs" value="needs-work">
+          <label for="v-needs">
+            <span class="v-icon">⚠️</span>
+            <span class="v-text">Needs Work<br>Fix before ship</span>
+          </label>
+        </div>
+        <div>
+          <input type="radio" name="verdict" id="v-fail" value="fail">
+          <label for="v-fail">
+            <span class="v-icon">❌</span>
+            <span class="v-text">Fail<br>Do not ship</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Final remarks / tester notes</label>
+        <textarea id="remarks" placeholder="Overall impression, anything else worth noting for the team..." style="min-height:60px;"></textarea>
+      </div>
+    </div>
+
+    <!-- Score bar -->
+    <div class="score-bar">
+      <span class="score-label">Calculated Test Score</span>
+      <span class="score-val" id="score-display">—</span>
+      <span class="score-label" id="score-grade">Rate all criteria above</span>
+    </div>
+
+    <div class="submit-area">
+      <button class="btn-submit" onclick="submitForm()"><span>Submit Feedback Report</span></button>
+    </div>
+
+  </div><!-- /#form-body -->
+
+  <!-- Success Screen -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">📋</div>
+    <h2>Feedback Recorded</h2>
+    <p>Thank you for testing Dina v3.9.3. Your report has been logged.</p>
+
+    <div class="result-summary" id="result-summary"></div>
+
+    <button class="btn-reset" onclick="resetForm()">Submit Another Test</button>
+  </div>
+
+</div><!-- /.page -->
+
+<script>
+// ── Live score calculation ─────────────────────────────────────────────────
+function calcScore() {
+  let total = 0, count = 0;
+
+  // Star ratings (1–5 each, weight x2 for critical)
+  const starGroups = ['lang1','lang2','lang3','stt1','stt2','stt3'];
+  starGroups.forEach(g => {
+    const checked = document.querySelector(`input[name="${g}"]:checked`);
+    if (checked) { total += parseInt(checked.value) * 2; count += 10; }
+  });
+
+  // Pass/Fail (phases + data accuracy)
+  const pfGroups = ['ph1','ph2','ph3','ph4','ph5','ph6','ph7','da1','da2','da3','da4','da5'];
+  pfGroups.forEach(g => {
+    const checked = document.querySelector(`input[name="${g}"]:checked`);
+    if (checked && checked.value !== 'na') {
+      total += checked.value === 'pass' ? 10 : 0;
+      count += 10;
+    }
+  });
+
+  if (count === 0) {
+    document.getElementById('score-display').textContent = '—';
+    document.getElementById('score-grade').textContent = 'Rate all criteria above';
+    return null;
+  }
+
+  const pct = Math.round((total / count) * 100);
+  document.getElementById('score-display').textContent = pct + '%';
+
+  let grade, color;
+  if (pct >= 90)      { grade = 'Excellent ✦'; color = '#70AD47'; }
+  else if (pct >= 75) { grade = 'Good ✔';       color = '#2E75B6'; }
+  else if (pct >= 60) { grade = 'Needs Work ⚠'; color = '#b38000'; }
+  else                { grade = 'Fail ✗';        color = '#C0392B'; }
+
+  document.getElementById('score-display').style.color = color;
+  document.getElementById('score-grade').textContent = grade;
+  return { pct, grade };
+}
+
+// Listen for any change
+document.addEventListener('change', calcScore);
+
+// ── Form submission ─────────────────────────────────────────────────────────
+function submitForm() {
+  const tester = document.getElementById('tester-name').value.trim();
+  const date   = document.getElementById('test-date').value;
+  if (!tester) { alert('Please enter your name before submitting.'); return; }
+  if (!date)   { alert('Please select the test date.'); return; }
+
+  const score = calcScore();
+  const verdict = document.querySelector('input[name="verdict"]:checked');
+
+  // Collect edge cases
+  const edges = [...document.querySelectorAll('#edge-cases input:checked')]
+    .map(el => el.value);
+
+  // Count pass/fail
+  const phases = ['ph1','ph2','ph3','ph4','ph5','ph6','ph7'];
+  const passed = phases.filter(g => {
+    const c = document.querySelector(`input[name="${g}"]:checked`);
+    return c && c.value === 'pass';
+  }).length;
+  const failed = phases.filter(g => {
+    const c = document.querySelector(`input[name="${g}"]:checked`);
+    return c && c.value === 'fail';
+  }).length;
+
+  const strengths = document.getElementById('strengths').value.trim();
+  const issues    = document.getElementById('issues').value.trim();
+  const fix       = document.getElementById('fix').value.trim();
+  const priority  = document.getElementById('priority').value;
+  const remarks   = document.getElementById('remarks').value.trim();
+
+  // Build result summary
+  let html = `
+    <h3>Test Report Summary</h3>
+    <div class="result-row"><span class="rlabel">Tester</span><span class="rval">${tester}</span></div>
+    <div class="result-row"><span class="rlabel">Date</span><span class="rval">${date}</span></div>
+    <div class="result-row"><span class="rlabel">Scenario</span><span class="rval">${document.getElementById('scenario').value || '—'}</span></div>
+    <div class="result-row"><span class="rlabel">Score</span><span class="rval ${score ? (score.pct>=90?'great':score.pct>=60?'warn':'bad') : ''}">${score ? score.pct+'%' : '—'}</span></div>
+    <div class="result-row"><span class="rlabel">Verdict</span><span class="rval">${verdict ? verdict.value.toUpperCase() : '—'}</span></div>
+    <div class="result-row"><span class="rlabel">Phases Passed</span><span class="rval great">${passed} / ${passed+failed}</span></div>
+  `;
+  if (edges.length) html += `<div class="result-row"><span class="rlabel">Edge Cases Tested</span><span class="rval">${edges.length}</span></div>`;
+  if (strengths)    html += `<div class="result-row"><span class="rlabel">✦ Strengths</span><span class="rval" style="max-width:320px;text-align:right;font-weight:400">${strengths.substring(0,120)}${strengths.length>120?'…':''}</span></div>`;
+  if (issues)       html += `<div class="result-row"><span class="rlabel">✧ Issues</span><span class="rval bad" style="max-width:320px;text-align:right;font-weight:400">${issues.substring(0,120)}${issues.length>120?'…':''}</span></div>`;
+  if (priority)     html += `<div class="result-row"><span class="rlabel">Priority</span><span class="rval">${priority}</span></div>`;
+  if (fix)          html += `<div class="result-row"><span class="rlabel">Action Item</span><span class="rval" style="max-width:320px;text-align:right;font-weight:400">${fix.substring(0,100)}${fix.length>100?'…':''}</span></div>`;
+
+  document.getElementById('result-summary').innerHTML = html;
+
+  // Show success
+  document.getElementById('form-body').style.display = 'none';
+  document.getElementById('success-screen').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Console log for integration
+  console.log('FEEDBACK_SUBMITTED', {
+    tester, date, score: score?.pct, verdict: verdict?.value,
+    passed, failed, strengths, issues, fix, priority, edges
+  });
+}
+
+function resetForm() {
+  document.getElementById('success-screen').classList.remove('show');
+  document.getElementById('form-body').style.display = 'block';
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+  document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+  document.querySelectorAll('textarea').forEach(t => t.value = '');
+  document.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+  document.getElementById('score-display').textContent = '—';
+  document.getElementById('score-display').style.color = '#C9A84C';
+  document.getElementById('score-grade').textContent = 'Rate all criteria above';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Set today's date
+document.getElementById('test-date').valueAsDate = new Date();
+</script>
+</body>
+</html>
