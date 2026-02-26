@@ -1009,11 +1009,37 @@ function submitForm() {
   document.getElementById('success-screen').classList.add('show');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Console log for integration
-  console.log('FEEDBACK_SUBMITTED', {
-    tester, date, score: score?.pct, verdict: verdict?.value,
-    passed, failed, strengths, issues, fix, priority, edges
-  });
+ // ── Save to Google Sheets via Apps Script ──────────────────────────────
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+
+  const payload = {
+    tester,
+    date,
+    callId:       document.getElementById('call-id').value.trim(),
+    scenario:     document.getElementById('scenario').value,
+    language:     document.getElementById('lang').value,
+    duration:     document.getElementById('call-dur').value.trim(),
+    score:        score ? score.pct + '%' : '',
+    verdict:      verdict ? verdict.value : '',
+    phasesPassed: passed,
+    phasesFailed: failed,
+    edgeCases:    edges,
+    sttErrors:    document.getElementById('stt-errors').value.trim(),
+    strengths,
+    issues,
+    fix,
+    priority,
+    remarks,
+  };
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  }).catch(err => console.warn('Logging failed:', err));
+
+  console.log('FEEDBACK_SUBMITTED', payload);
 }
 
 function resetForm() {
